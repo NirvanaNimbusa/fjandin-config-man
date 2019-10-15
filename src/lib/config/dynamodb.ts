@@ -25,9 +25,7 @@ export default function getConfigAwsDynamo(
     )
 
     return resultPromise.then((result) => {
-        const config = result.Items
-            ? result.Items.reduce((a, b) => ({...a, [b.key]: b.value}), {})
-            : {}
+        const config = (result.Items || []).reduce((a, b) => ({...a, [b.key]: b.value}), {})
         return config
     })
 }

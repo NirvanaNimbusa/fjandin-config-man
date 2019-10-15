@@ -1,14 +1,17 @@
 import {OptionsConfigItemOptions} from './../../index'
 import {parseValue} from './../helpers'
 
+export const getArgv = () => process.argv
+
 export default function getConfigArg(
     options: OptionsConfigItemOptions
 ): Promise<{[key: string]: any}> | {[key: string]: any} {
+    const argv = getArgv()
     const prefix = options.prefix || 'cm'
     const schema = options.schema
-    const args: {[key: string]: any} = process.argv.reduce((a: {[key: string]: any}, b, i) => {
+    const args: {[key: string]: any} = argv.reduce((a: {[key: string]: any}, b, i) => {
         if (b === `--${prefix}`) {
-            const [key, value] = (process.argv[i + 1] || '').split('=')
+            const [key, value] = (argv[i + 1] || '').split('=')
             if (key && value) {
                 return {...a, [key]: value}
             }
